@@ -1,15 +1,23 @@
-const { DynamoDB } = require('aws-cdk');
+import { DynamoDB } from 'aws-sdk';
 
 const dynamo = new DynamoDB.DocumentClient();
 const MY_TABLE = process.env.MY_TABLE;
 
-const handler = async (event: any) => {
+// Sample respond for testing
+// const respond = async (status: any, body: any) => ({
+//     statusCode: status,
+//     headers: { "Content-Type": "text/html" },
+//     body: body
+// })
+
+exports.handler = async function (event: any) {
     console.log('start function', event);
+    // return respond(200, 'Testing Lambda Success!!')
+
     const item = { id: Date.now().toString() }
 
     const savedItem = await saveItem(item);
 
-    // return respond(200, 'Testing Lambda Success!!')
 
     return {
         statusCode: 200,
@@ -25,21 +33,19 @@ const handler = async (event: any) => {
 
 };
 
-// const respond = async (status: any, body: any) => ({
-//     statusCode: status,
-//     headers: { "Content-Type": "text/html" },
-//     body: body
-// })
+const saveItem = async (item:Object) => {
+    const table = MY_TABLE?.toString() || 'test-table';
+    const params = {
+        TableName: table,
+        Item: {
+            'id': Date.now().toString(),
+            'username': 'John Doe'
+        }
+      };
 
-const saveItem = async (item: any) => {
-    const params = { TableName: MY_TABLE, Item: item }
-    console.log(params);
 
     return dynamo
         .put(params)
         .promise()
         .then(() => item)
 }
-
-
-module.exports = { handler };

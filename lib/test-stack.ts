@@ -11,10 +11,10 @@ export class TestStack extends Stack {
     super(scope, id, props);
 
     // Dynamo Table declaration:
-    const myTable = new Table(this, 'my_test_table', {
+    const myTable = new Table(this, 'test_table_this', {
       billingMode: BillingMode.PAY_PER_REQUEST,
       partitionKey: { name: 'id', type: AttributeType.STRING },
-      tableName: 'my_test_table'
+      tableName: 'test_table'
     })
 
     // Lambda function declaration (we declare layers here as well)
@@ -27,6 +27,7 @@ export class TestStack extends Stack {
       }
     })
 
+    // Function URL - is printed in terminal on successful deployment
     const { url } = func.addFunctionUrl({ authType: FunctionUrlAuthType.NONE })
     new CfnOutput(this, "fnURL", { value: url })
 
