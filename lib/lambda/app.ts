@@ -43,7 +43,6 @@ const saveItem = async (item:Object) => {
         }
       };
 
-
     return dynamo
         .put(params)
         .promise()
