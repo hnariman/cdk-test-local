@@ -18,3 +18,6 @@ please check package.json and update with your AWS account instead of --profile 
 * `npm run synth`     generates CloudFormation file for the stack
 * `npm run deploy`    deploy updated code to AWS
 * `npm run destroy`   remove stack from CoudFormation (attention, this doesn't remove CDKToolkit stack, don't leave it, it may cause AWS charges)
+
+- code in the cloud works through ts-node, hence we don't need to build/transpile to js and js files are ingored by cdk
+while compressing lambda to zip and moving code into S3 bucket
